@@ -442,7 +442,7 @@ a {
   }
 }
 
-/*  */
+/* about section */
 .about__container {
   display: flex;
   flex-direction: column;
@@ -453,6 +453,7 @@ a {
   font-weight: 600;
   font-size: 60px;
   line-height: 1.25;
+  color: var(--dark-bg-container);
 }
 
 .about__content {
@@ -464,6 +465,7 @@ a {
   display: flex;
   flex-direction: column;
   gap: 40px;
+  width: 100%;
 }
 
 .about__image {
@@ -499,4 +501,111 @@ a {
   .about__header {
   font-size: 32px;
 }
+}
+
+/* mobile app section */
+.mobile-app__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--dark-bg-container);  
+}
+
+.mobile-app__offer {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 630px;
+  width: 100%;
+}
+.mobile-app__header {
+  font-weight: 600;
+  font-size: 60px;
+  line-height: 1.25;
+}
+
+.mobile-app__buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.mobile-app__button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  width: 200px;
+  gap: 8px;
+  padding: 12px 0 12px 20px;
+  border: 1px solid var(--dark-border-primary);
+  border-radius: var(--border-radius);
+  transition: all var(--transition-duration) linear;
+}
+
+.mobile-app__button__image path {
+  transition: fill var(--transition-duration) linear;
+}
+
+.mobile-app__button:hover {
+  background-color: var(--dark-border-primary);
+  color: var(--dark-text-inverse);
+}
+
+.mobile-app__button:hover .mobile-app__button__image path {
+  fill: var(--dark-text-inverse);
+}
+
+.mobile-app__button__desription {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.desription__par {
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.desription__par-increased {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.mobile-app__screens {
+  max-width: 630px;
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+@media (max-width: 768px) {
+  .mobile-app__container {
+    flex-direction: column;
+    gap: 100px;
+  }
+
+  .mobile-app__offer {
+    max-width: 688px;
+  }
+}
+
+@media (max-width: 380px) {
+  .mobile-app__container {
+    gap: 40px;
+  }
+
+  .mobile-app__header {
+  font-size: 32px;
+  }
+
+  .mobile-app__offer {
+    max-width: 348px;
+  }
+
+  .mobile-app__buttons {
+  flex-direction: column;
+  }
+
+  .mobile-app__screens {
+  max-width: 348px;
+  }
 }
