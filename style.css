@@ -183,7 +183,6 @@ a {
   }
 }
 
-
 .header__actions {
   display: flex;
   align-items: center;
@@ -286,13 +285,11 @@ a {
   }
 }
 
-
 .header__burger {
   display: none;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 8px;
+  position: relative;
   width: 44px;
   aspect-ratio: 1;
   border: 1px solid var(--border-inverse);
@@ -300,10 +297,26 @@ a {
   background-color: transparent;
 }
 
-.burger__line {
+.header__burger::before,
+.header__burger::after {
+  content: '';
+  position: absolute;
   width: 16px;
   height: 2px;
   background-color: var(--text-primary);
+  transition: all var(--transition-duration) linear;
+}
+
+.header__burger::before {
+  top: 15px;
+}
+
+.header__burger::after {
+  bottom: 15px;;
+}
+
+.mobile-navigation {
+  display: none;
 }
 
 @media (max-width: 768px) {
@@ -325,7 +338,87 @@ a {
   }
 
   .header__burger {
-    display: inline-flex;
+    display: flex;
+  }
+
+  .header__burger.is-active.header__burger::before {
+    top: 50%;
+    transform: rotate(45deg);
+  }
+
+  .header__burger.is-active.header__burger::after {
+    top: 50%;
+    transform: rotate(-45deg);
+  }
+
+  /* mobile */
+  .mobile-navigation {
+    position: fixed;
+    z-index: 10;
+    top: 100px;
+    right: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 100px;
+
+    width: 100%;
+    height: calc(100vh - 100px);
+    padding: 222px 40px;
+
+    background-color: var(--bg-page);
+
+    transform: translateX(100%);
+    visibility: hidden;
+
+    transition:
+      transform var(--transition-duration) ease,
+      visibility var(--transition-duration) ease;
+
+    overflow-y: auto;
+  }
+
+  .mobile-navigation.is-open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .mobile-navigation__menu {
+    display: block;
+    width: 100%;
+  }
+
+  .mobile-navigation__button {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .mobile-navigation .header__menu {
+    display: block;
+  }
+
+  .mobile-navigation .header__menu-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+  }
+
+   .mobile-navigation .header__menu-item {
+    font-size: 32px;
+    text-align: center;
+  }
+
+  .mobile-navigation .header__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+
+    font-size: 32px;
   }
 }
 
