@@ -117,3 +117,213 @@ window.addEventListener('resize', () => {
     closeMobileMenu();
   }
 });
+
+//slider
+
+const coffeeSliders = [
+  {
+    "src": "../images/slider/coffee-slider-1.png",
+    "name": "S’mores Frappuccino",
+    "description": "This new drink takes an espresso and mixes it with brown sugar and cinnamon before being topped with oat milk.",
+    "price": "$5.50",
+  },
+  {
+    "src": "../images/slider/coffee-slider-2.png",
+    "name": "Caramel Macchiato",
+    "description": "Fragrant and unique classic espresso with rich caramel-peanut syrup, with cream under whipped thick foam.",
+    "price": "$5.00",
+  },
+  {
+    "src": "../images/slider/coffee-slider-3.png",
+    "name": "Ice coffee",
+    "description": "A popular summer drink that tones and invigorates. Prepared from coffee, milk and ice.",
+    "price": "$4.50",
+  },
+];
+
+const sliderArrowLeft = document.querySelector('.slider__arrow-left');
+
+const sliderSlides = document.querySelector('.slider__slides');
+
+const sliderArrowRight = document.querySelector('.slider__arrow-right');
+
+const setupSlides = () => {
+  coffeeSliders.forEach((coffeeSlider, index) => {
+    const slide = document.createElement("div");
+    slide.classList.add('slider__content');
+    slide.dataset.index = index;
+
+    const image = document.createElement("img");
+    image.src = coffeeSlider.src;
+    image.classList.add('slider__image');
+    image.alt = coffeeSlider.name;
+
+    const description = document.createElement("div");
+    description.classList.add('slider__description');
+
+    const header = document.createElement("h3");
+    header.textContent = coffeeSlider.name;
+    header.classList.add('slider__header');
+
+    const paragraph = document.createElement("p");
+    paragraph.textContent = coffeeSlider.description;
+    paragraph.classList.add('slider__par');
+
+    const price = document.createElement("p");
+    price.textContent = coffeeSlider.price;
+    price.classList.add('slider__price');
+
+    description.append(header, paragraph, price);
+    slide.append(image, description);
+    sliderSlides.append(slide);
+  });
+
+  const firstClone = sliderSlides.firstElementChild.cloneNode(true);
+  const lastClone = sliderSlides.lastElementChild.cloneNode(true);
+
+  sliderSlides.appendChild(firstClone);
+  sliderSlides.insertBefore(lastClone, sliderSlides.firstChild)
+};
+
+setupSlides();
+
+const sliderCards = document.querySelectorAll('.slider__content');
+const sliderControlls = document.querySelectorAll('.controls__element');
+
+let currentSlide = 0;
+let currentPosition = 1;
+let isAnimating = false;
+
+const showSlide = (position, logicalIndex) => {
+  sliderSlides.style.transform = `translateX(-${position * 100}%)`;
+
+  sliderControlls.forEach((control) => {
+    control.classList.remove('controls__element-active')
+  });
+
+  sliderControlls[logicalIndex].classList.add('controls__element-active');
+
+  currentPosition = position;
+  currentSlide = logicalIndex;
+}
+
+const nextSlide = () => {
+  if (isAnimating) {
+    return;
+  }
+
+  const nextPosition = currentPosition + 1;
+
+  isAnimating = true;
+
+  if (nextPosition === sliderCards.length - 1) {
+    sliderSlides.style.transition = `transform 0.5s ease`;
+
+    showSlide(nextPosition, 0);
+    
+    sliderSlides.addEventListener('transitionend', () => {
+      sliderSlides.style.transition = "none";
+      showSlide(1, 0);
+
+      requestAnimationFrame(() => {
+        sliderSlides.style.transition = 'transform 0.5s ease';
+        isAnimating = false;
+      });
+    }, { once: true});
+    return;
+  }
+  showSlide(nextPosition, currentSlide + 1);
+
+  sliderSlides.addEventListener('transitionend', () => {
+    isAnimating = false;
+  }, { once: true });
+}
+
+const previousSlide = () => {
+  if (isAnimating) {
+    return;
+  }
+
+  const previousPosition = currentPosition - 1;
+
+  isAnimating = true;
+
+  if (previousPosition === 0) {
+    showSlide(previousPosition, 2);
+    sliderSlides.addEventListener('transitionend', () => {
+      sliderSlides.style.transition = 'none';
+
+      showSlide(3, 2);
+
+      requestAnimationFrame(() => {
+        sliderSlides.style.transition = 'transform 0.5s ease';
+        isAnimating = false;
+      });
+    }, { once: true });
+
+    return;
+  }
+
+  showSlide(previousPosition, currentSlide - 1);
+
+  sliderSlides.addEventListener('transitionend', () => {
+    isAnimating = false;
+  }, { once: true });
+}
+
+sliderArrowRight.addEventListener('click', nextSlide);
+sliderArrowLeft.addEventListener('click', previousSlide);
+
+sliderControlls.forEach((control, index) => {
+  control.addEventListener('click', () => {
+    showSlide(index + 1, index);
+  });
+});
+
+showSlide(1, 0);
+
+//mobile slider
+
+const sliderViewport = document.querySelector('.slider__viewport');
+
+sliderViewport.addEventListener('click', (e) => {
+  if (window.innerWidth > 380) {
+    return
+  };
+
+  const { left, width } = sliderViewport.getBoundingClientRect();
+  const clickPosition = e.clientX - left;
+
+  if (clickPosition < width / 2) {
+    previousSlide();
+  } else {
+    nextSlide();
+  }
+});
+
+
+let touchStartX = 0;
+
+sliderViewport.addEventListener('touchstart', (event) => {
+  touchStartX = event.changedTouches[0].screenX;
+});
+
+sliderViewport.addEventListener('touchend', (event) => {
+  if (window.innerWidth > 380) {
+    return;
+  }
+
+  const touchEndX = event.changedTouches[0].screenX;
+  const swipeDistance = touchEndX - touchStartX;
+
+  if (Math.abs(swipeDistance) < 50) {
+    return;
+  }
+
+  if (swipeDistance < 0) {
+    nextSlide();
+  } else {
+    previousSlide();
+  }
+});
+
