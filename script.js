@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+
 //scroll controller
 const scrollController = {
   scrollPosition: 0,
@@ -40,6 +41,7 @@ const scrollController = {
     document.body.style.cssText = '';
   }
 }
+
 
 // burger menu
 const burgerButton = document.querySelector('.header__burger');
@@ -118,8 +120,8 @@ window.addEventListener('resize', () => {
   }
 });
 
-//slider
 
+//slider
 const coffeeSliders = [
   {
     "src": "../images/slider/coffee-slider-1.png",
@@ -185,145 +187,230 @@ const setupSlides = () => {
   sliderSlides.insertBefore(lastClone, sliderSlides.firstChild)
 };
 
-setupSlides();
+if (sliderSlides) {
+  setupSlides();
 
-const sliderCards = document.querySelectorAll('.slider__content');
-const sliderControlls = document.querySelectorAll('.controls__element');
+  const sliderCards = document.querySelectorAll('.slider__content');
+  const sliderControlls = document.querySelectorAll('.controls__element');
 
-let currentSlide = 0;
-let currentPosition = 1;
-let isAnimating = false;
+  let currentSlide = 0;
+  let currentPosition = 1;
+  let isAnimating = false;
 
-const showSlide = (position, logicalIndex) => {
-  sliderSlides.style.transform = `translateX(-${position * 100}%)`;
+  const showSlide = (position, logicalIndex) => {
+    sliderSlides.style.transform = `translateX(-${position * 100}%)`;
 
-  sliderControlls.forEach((control) => {
-    control.classList.remove('controls__element-active')
-  });
+    sliderControlls.forEach((control) => {
+      control.classList.remove('controls__element-active')
+    });
 
-  sliderControlls[logicalIndex].classList.add('controls__element-active');
+    sliderControlls[logicalIndex].classList.add('controls__element-active');
 
-  currentPosition = position;
-  currentSlide = logicalIndex;
-}
-
-const nextSlide = () => {
-  if (isAnimating) {
-    return;
+    currentPosition = position;
+    currentSlide = logicalIndex;
   }
 
-  const nextPosition = currentPosition + 1;
+  const nextSlide = () => {
+    if (isAnimating) {
+      return;
+    }
 
-  isAnimating = true;
+    const nextPosition = currentPosition + 1;
 
-  if (nextPosition === sliderCards.length - 1) {
-    sliderSlides.style.transition = `transform 0.5s ease`;
+    isAnimating = true;
 
-    showSlide(nextPosition, 0);
-    
+    if (nextPosition === sliderCards.length - 1) {
+      sliderSlides.style.transition = `transform 0.5s ease`;
+
+      showSlide(nextPosition, 0);
+      
+      sliderSlides.addEventListener('transitionend', () => {
+        sliderSlides.style.transition = "none";
+        showSlide(1, 0);
+
+        requestAnimationFrame(() => {
+          sliderSlides.style.transition = 'transform 0.5s ease';
+          isAnimating = false;
+        });
+      }, { once: true});
+      return;
+    }
+    showSlide(nextPosition, currentSlide + 1);
+
     sliderSlides.addEventListener('transitionend', () => {
-      sliderSlides.style.transition = "none";
-      showSlide(1, 0);
-
-      requestAnimationFrame(() => {
-        sliderSlides.style.transition = 'transform 0.5s ease';
-        isAnimating = false;
-      });
-    }, { once: true});
-    return;
-  }
-  showSlide(nextPosition, currentSlide + 1);
-
-  sliderSlides.addEventListener('transitionend', () => {
-    isAnimating = false;
-  }, { once: true });
-}
-
-const previousSlide = () => {
-  if (isAnimating) {
-    return;
-  }
-
-  const previousPosition = currentPosition - 1;
-
-  isAnimating = true;
-
-  if (previousPosition === 0) {
-    showSlide(previousPosition, 2);
-    sliderSlides.addEventListener('transitionend', () => {
-      sliderSlides.style.transition = 'none';
-
-      showSlide(3, 2);
-
-      requestAnimationFrame(() => {
-        sliderSlides.style.transition = 'transform 0.5s ease';
-        isAnimating = false;
-      });
+      isAnimating = false;
     }, { once: true });
-
-    return;
   }
 
-  showSlide(previousPosition, currentSlide - 1);
+  const previousSlide = () => {
+    if (isAnimating) {
+      return;
+    }
 
-  sliderSlides.addEventListener('transitionend', () => {
-    isAnimating = false;
-  }, { once: true });
+    const previousPosition = currentPosition - 1;
+
+    isAnimating = true;
+
+    if (previousPosition === 0) {
+      showSlide(previousPosition, 2);
+      sliderSlides.addEventListener('transitionend', () => {
+        sliderSlides.style.transition = 'none';
+
+        showSlide(3, 2);
+
+        requestAnimationFrame(() => {
+          sliderSlides.style.transition = 'transform 0.5s ease';
+          isAnimating = false;
+        });
+      }, { once: true });
+
+      return;
+    }
+
+    showSlide(previousPosition, currentSlide - 1);
+
+    sliderSlides.addEventListener('transitionend', () => {
+      isAnimating = false;
+    }, { once: true });
+  }
+
+  sliderArrowRight.addEventListener('click', nextSlide);
+  sliderArrowLeft.addEventListener('click', previousSlide);
+
+  sliderControlls.forEach((control, index) => {
+    control.addEventListener('click', () => {
+      showSlide(index + 1, index);
+    });
+  });
+
+  showSlide(1, 0);
+
+  //mobile slider
+
+  const sliderViewport = document.querySelector('.slider__viewport');
+
+  sliderViewport.addEventListener('click', (e) => {
+    if (window.innerWidth > 380) {
+      return
+    };
+
+    const { left, width } = sliderViewport.getBoundingClientRect();
+    const clickPosition = e.clientX - left;
+
+    if (clickPosition < width / 2) {
+      previousSlide();
+    } else {
+      nextSlide();
+    }
+  });
+
+
+  let touchStartX = 0;
+
+  sliderViewport.addEventListener('touchstart', (event) => {
+    touchStartX = event.changedTouches[0].screenX;
+  });
+
+  sliderViewport.addEventListener('touchend', (event) => {
+    if (window.innerWidth > 380) {
+      return;
+    }
+
+    const touchEndX = event.changedTouches[0].screenX;
+    const swipeDistance = touchEndX - touchStartX;
+
+    if (Math.abs(swipeDistance) < 50) {
+      return;
+    }
+
+    if (swipeDistance < 0) {
+      nextSlide();
+    } else {
+      previousSlide();
+    }
+  });
 }
 
-sliderArrowRight.addEventListener('click', nextSlide);
-sliderArrowLeft.addEventListener('click', previousSlide);
 
-sliderControlls.forEach((control, index) => {
-  control.addEventListener('click', () => {
-    showSlide(index + 1, index);
-  });
-});
+//menu
+const buttonMenu = document.querySelectorAll('.menu__button');
+const gridMenu = document.querySelector('.menu__grid');
 
-showSlide(1, 0);
+async function loadCards() {
+  try {
+    const response = await fetch('../products.json');
 
-//mobile slider
+    const cardsData = await response.json();
 
-const sliderViewport = document.querySelector('.slider__viewport');
+    renderCards(cardsData);
 
-sliderViewport.addEventListener('click', (e) => {
-  if (window.innerWidth > 380) {
-    return
+  } catch (error) {
+    console.error("Ошибка при загрузке данных:", error);
+  }
+}
+
+loadCards();
+
+function renderCards(data) {
+  const renderCategory = (category) => {
+    gridMenu.innerHTML = '';
+
+    buttonMenu.forEach((button) => {
+      button.classList.remove('menu__button__selected');
+
+      if (button.id === category) {
+        button.classList.add('menu__button__selected');
+      }
+    });
+
+    const categoryProducts = data.filter((product) => {
+      return product.category === category;
+    });
+
+    categoryProducts.forEach((product, index) => {
+      const menuCard = document.createElement('div');
+      menuCard.classList.add('menu__card');
+
+      const cardImage = document.createElement('img');
+      cardImage.src = `../images/menu/grid-card-${category}/${category}-${index + 1}.png`
+      cardImage.alt = 'coffee image';
+      cardImage.classList.add('card__image');
+
+      const cardContent = document.createElement('div');
+      cardContent.classList.add('card__content');
+
+      const cardContentText = document.createElement('div');
+      cardContentText.classList.add('card__content-text');
+
+      const cardHeader = document.createElement('h3');
+      cardHeader.classList.add('card__header');
+      cardHeader.textContent = product.name;
+
+      const cardPar = document.createElement('p');
+      cardPar.classList.add('card__par');
+      cardPar.textContent = product.description;
+
+      const cardPrice = document.createElement('p');
+      cardPrice.classList.add('card__price');
+      cardPrice.textContent = `$${product.price}`;
+
+
+      cardContentText.append(cardHeader, cardPar)
+      cardContent.append(cardContentText, cardPrice);
+      menuCard.append(cardImage, cardContent);
+      gridMenu.append(menuCard);
+    });
   };
 
-  const { left, width } = sliderViewport.getBoundingClientRect();
-  const clickPosition = e.clientX - left;
+  buttonMenu.forEach((button) => {
+    button.addEventListener('click', () => {
+      renderCategory(button.id);
+    });
+  });
 
-  if (clickPosition < width / 2) {
-    previousSlide();
-  } else {
-    nextSlide();
-  }
-});
+  renderCategory('coffee');
+}
 
 
-let touchStartX = 0;
 
-sliderViewport.addEventListener('touchstart', (event) => {
-  touchStartX = event.changedTouches[0].screenX;
-});
-
-sliderViewport.addEventListener('touchend', (event) => {
-  if (window.innerWidth > 380) {
-    return;
-  }
-
-  const touchEndX = event.changedTouches[0].screenX;
-  const swipeDistance = touchEndX - touchStartX;
-
-  if (Math.abs(swipeDistance) < 50) {
-    return;
-  }
-
-  if (swipeDistance < 0) {
-    nextSlide();
-  } else {
-    previousSlide();
-  }
-});
 
