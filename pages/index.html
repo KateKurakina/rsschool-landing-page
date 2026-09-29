@@ -60,11 +60,15 @@
               <path d="M13.333 9.16675H15.4163C16.5669 9.16675 17.4997 10.0995 17.4997 11.2501C17.4997 12.4007 16.5669 13.3334 15.4163 13.3334H14.1663" stroke="#403F3D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </a>
-        <button class="header__burger" type="button">
+        <button class="header__burger" type="button" aria-expanded="false" aria-label="Open navigation menu">
           <span class="visually-hidden">Open menu</span>
-          <span class="burger__line"></span>
-          <span class="burger__line"></span>
         </button>
+      </div>
+    </div>
+    <div class="mobile-navigation" id="mobile-navigation">
+      <nav class="mobile-navigation__menu">
+      </nav>
+      <div class="mobile-navigation__button" href="./menu.html">
       </div>
     </div>
   </header>
@@ -94,38 +98,17 @@
         <div class="favorite-coffee__container container">
           <h2 class="favorite-coffee__header">Choose your <span class="header__highlight">favorite</span> coffee</h2>
           <div class="favorite-coffee__slider">
-            <button class="slider__arrow" type="button">
+            <button class="slider__arrow slider__arrow-left" type="button">
               <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path class="slider__arrow-left" d="M13 6.5H0.5M6.5 12.5L0.5 6.5L6.5 0.5" stroke="#403F3D" stroke-linecap="round" stroke-linejoin="round"/>
+                <path class="slider__arrow-path" d="M13 6.5H0.5M6.5 12.5L0.5 6.5L6.5 0.5" stroke="#403F3D" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </button>
-            <div class="slider__content slider__content-active">
-              <img src="../images/slider/coffee-slider-1.png" alt="Coffee image" class="slider__image">
-              <div class="slider__description">
-                <h3 class="slider__header">S’mores Frappuccino</h3>
-                <p class="slider__par">This new drink takes an espresso and mixes it with brown sugar and cinnamon before being topped with oat milk.</p>
-                <p class="slider__price">$5.50</p>
-              </div>
+            <div class="slider__viewport">
+              <div class="slider__slides"></div>
             </div>
-            <div class="slider__content">
-              <img src="../images/slider/coffee-slider-2.png" alt="Coffee image" class="slider__image">
-              <div class="slider__description">
-                <h3 class="slider__header">Caramel Macchiato</h3>
-                <p class="slider__par">Fragrant and unique classic espresso with rich caramel-peanut syrup, with cream under whipped thick foam.</p>
-                <p class="slider__price">$5.00</p>
-              </div>
-            </div>
-            <div class="slider__content">
-              <img src="../images/slider/coffee-slider-3.png" alt="Coffee image" class="slider__image">
-              <div class="slider__description">
-                <h3 class="slider__header">Ice coffee</h3>
-                <p class="slider__par">A popular summer drink that tones and invigorates. Prepared from coffee, milk and ice.</p>
-                <p class="slider__price">$4.50</p>
-              </div>
-            </div>
-            <button class="slider__arrow" type="button">
+            <button class="slider__arrow slider__arrow-right" type="button">
               <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path class="slider__arrow-right" d="M0.5 6.5H13M7 12.5L13 6.5L7 0.5" stroke="#403F3D" stroke-linecap="round" stroke-linejoin="round"/>
+                <path class="slider__arrow-path" d="M0.5 6.5H13M7 12.5L13 6.5L7 0.5" stroke="#403F3D" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </button>
           </div>

@@ -62,11 +62,17 @@
               </svg>
             </span>
           </a>
-        <button class="header__burger" type="button">
+        <button class="header__burger" type="button" aria-expanded="false" aria-label="Open navigation menu">
           <span class="visually-hidden">Open menu</span>
           <span class="burger__line"></span>
           <span class="burger__line"></span>
         </button>
+      </div>
+    </div>
+    <div class="mobile-navigation" id="mobile-navigation">
+      <nav class="mobile-navigation__menu">
+      </nav>
+      <div class="mobile-navigation__button" href="./menu.html">
       </div>
     </div>
   </header>
@@ -76,107 +82,26 @@
       <div class="menu__container container">
         <h2 class="menu__header">Behind each of our cups hides an <span class="header__highlight">amazing surprise</span></h2>
         <div class="menu__buttons">
-          <button type="button" class="menu__button menu__button__selected">
+          <button type="button" class="menu__button" id="coffee">
             <span class="menu__button-icon">
               <img class="button-icon__image" src="../images/menu/coffee.png" alt="icon">
             </span>
             <span class="menu__button-name">Coffee</span>
           </button>
-          <button type="button" class="menu__button">
+          <button type="button" class="menu__button" id="tea">
             <span class="menu__button-icon">
               <img class="button-icon__image" src="../images/menu/tea.png" alt="icon">
             </span>            
             <span class="menu__button-name">Tea</span>
           </button>
-          <button type="button" class="menu__button">
+          <button type="button" class="menu__button" id="dessert">
             <span class="menu__button-icon">
               <img class="button-icon__image" src="../images/menu/dessert.png" alt="icon">
             </span>
             <span class="menu__button-name">Dessert</span>
           </button>
         </div>
-        <div class="menu__grid">
-          <div class="menu__card">
-            <img src="../images/menu/grid-card-coffee/coffee-1.jpg" alt="coffee image" class="card__image">
-            <div class="card__content">
-              <div class="card__content-text">
-                <h3 class="card__header">Irish coffee</h3>
-                <p class="card__par">Fragrant black coffee with Jameson Irish whiskey and whipped milk</p>
-              </div>
-              <p class="card__price">$7.00</p>
-            </div>
-          </div>
-          <div class="menu__card">
-            <img src="../images/menu/grid-card-coffee/coffee-2.jpg" alt="coffee image" class="card__image">
-            <div class="card__content">
-              <div class="card__content-text">
-                <h3 class="card__header">Kahlua coffee</h3>
-                <p class="card__par">Classic coffee with milk and Kahlua liqueur under a cap of frothed milk</p>
-              </div>
-              <p class="card__price">$7.00</p>
-            </div>
-          </div>
-          <div class="menu__card">
-            <img src="../images/menu/grid-card-coffee/coffee-3.jpg" alt="coffee image" class="card__image">
-            <div class="card__content">
-              <div class="card__content-text">
-                <h3 class="card__header">Honey raf</h3>
-                <p class="card__par">Espresso with frothed milk, cream and aromatic honey</p>
-              </div>
-              <p class="card__price">$5.50</p>
-            </div>
-          </div>
-          <div class="menu__card">
-            <img src="../images/menu/grid-card-coffee/coffee-4.jpg" alt="coffee image" class="card__image">
-            <div class="card__content">
-              <div class="card__content-text">
-                <h3 class="card__header">Ice cappuccino</h3>
-                <p class="card__par">Cappuccino with soft thick foam in summer version with ice</p>
-              </div>
-              <p class="card__price">$5.00</p>
-            </div>
-          </div>
-          <div class="menu__card">
-            <img src="../images/menu/grid-card-coffee/coffee-5.jpg" alt="coffee image" class="card__image">
-            <div class="card__content">
-              <div class="card__content-text">
-                <h3 class="card__header">Espresso</h3>
-                <p class="card__par">Classic black coffee</p>
-              </div>
-              <p class="card__price">$4.50</p>
-            </div>
-          </div>
-          <div class="menu__card">
-            <img src="../images/menu/grid-card-coffee/coffee-6.jpg" alt="coffee image" class="card__image">
-            <div class="card__content">
-              <div class="card__content-text">
-                <h3 class="card__header">Latte</h3>
-                <p class="card__par">Espresso coffee with the addition of steamed milk and dense milk foam</p>
-              </div>
-              <p class="card__price">$5.50</p>
-            </div>
-          </div>
-          <div class="menu__card">
-            <img src="../images/menu/grid-card-coffee/coffee-7.jpg" alt="coffee image" class="card__image">
-            <div class="card__content">
-              <div class="card__content-text">
-                <h3 class="card__header">Latte macchiato</h3>
-                <p class="card__par">Espresso with frothed milk and chocolate</p>
-              </div>
-              <p class="card__price">$5.50</p>
-            </div>
-          </div>
-          <div class="menu__card">
-            <img src="../images/menu/grid-card-coffee/coffee-8.jpg" alt="coffee image" class="card__image">
-            <div class="card__content">
-              <div class="card__content-text">
-                <h3 class="card__header">Coffee with cognac</h3>
-                <p class="card__par">Fragrant black coffee with cognac and whipped cream</p>
-              </div>
-              <p class="card__price">$6.50</p>
-            </div>
-          </div>
-        </div>
+        <div class="menu__grid"></div>
         <button class="menu__button-refresh">
           <svg class="menu__button-refresh__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M21.8883 13.5C21.1645 18.3113 17.013 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C16.1006 2 19.6248 4.46819 21.1679 8" stroke="#403F3D" stroke-linecap="round" stroke-linejoin="round"/>
@@ -185,6 +110,51 @@
         </button>
       </div>
     </section>
+    <div class="modal" id="modal">
+      <div class="modal__overlay"></div>
+      <div class="modal__window" role="dialog" aria-modal="true">
+        <div class="modal__content">
+          <img src="#" alt="" class="modal__image">
+          <div class="modal__description">
+            <div class="description__title">
+              <h3 class="title__heading"></h3>
+              <p class="title__par"></p>
+            </div>
+            <div class="description__size">
+              <p class="size__par"></p>
+              <div class="size__tabs">
+              </div>
+            </div>
+            <div class="description__additives">
+              <p class="additives__par"></p>
+              <div class="additives__tabs">
+              </div>
+            </div>
+            <div class="description__total">
+              <p class="total__par"></p>
+              <p class="total__price"></p>
+            </div>
+            <div class="description__alert">
+              <span class="alert__icon">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_147811_7961)">
+                    <path class="alert__icon-path" d="M8 7.66663V11" stroke="#403F3D" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path class="alert__icon-path" d="M8 5.00667L8.00667 4.99926" stroke="#403F3D" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path class="alert__icon-path" d="M7.99967 14.6667C11.6816 14.6667 14.6663 11.6819 14.6663 8.00004C14.6663 4.31814 11.6816 1.33337 7.99967 1.33337C4.31778 1.33337 1.33301 4.31814 1.33301 8.00004C1.33301 11.6819 4.31778 14.6667 7.99967 14.6667Z" stroke="#403F3D" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_147811_7961">
+                      <rect width="16" height="16" fill="white"/>
+                    </clipPath>
+                  </defs>
+                </svg>
+              </span>
+              <p class="alert__par">The cost is not final. Download our mobile app to see the final price and place your order. Earn loyalty points and enjoy your favorite coffee with up to 20% discount.</p>
+            </div>
+            <button class="description__button" type="button">Close</button>
+          </div>
+        </div>
+      </div>
   </main>
   <footer class="footer" id="contact">
     <div class="footer__container container">
