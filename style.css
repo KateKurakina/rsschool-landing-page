@@ -103,6 +103,10 @@ body {
   transition: background-color var(--transition-duration) linear, color var(--transition-duration) linear;
 }
 
+body.modal-open {
+  overflow: hidden;
+}
+
 .container {
   max-width: calc(var(--container-width) + var(--container-padding-x) * 2);
   margin-inline: auto;
@@ -1191,5 +1195,240 @@ a {
 
   .menu__grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* modal */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 40px;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    opacity var(--transition-duration) linear,
+    visibility var(--transition-duration) linear;
+}
+
+.modal.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal__overlay {
+  position: absolute;
+  inset: 0;
+
+  background-color: var(--bg-overlay);
+  opacity: 0.8;
+}
+
+.modal__window {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  max-width: 800px;
+
+  padding: 16px;
+
+  border-radius: 40px;
+
+  background-color: var(--bg-page);
+
+  transform: scale(0.95);
+  transition: transform var(--transition-duration) linear;
+}
+
+.modal.is-open .modal__window {
+  transform: scale(1);
+}
+
+.modal__content {
+  display: flex;
+}
+
+.modal__image {
+  border-radius: 40px;
+  display: block;
+  max-width: 310px;
+  width: 100%;
+  max-height: 310px;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.modal__description {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+  gap: 20px;
+  max-width: 458px;
+  width: 100%;
+}
+
+.description__title {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.title__heading {
+  line-height: 1.25;
+  font-size: 24px;
+}
+
+.description__size,
+.description__additives {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.size__tabs,
+.additives__tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tab-item {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-primary);
+  border-radius: var(--border-radius);
+  background-color: transparent;
+  transition: 
+  border-color var(--transition-duration) linear,
+  background-color var(--transition-duration) linear;
+}
+
+.tab-item.is-selected {
+  border-color: var(--bg-container);
+  background-color: var(--bg-container);
+}
+
+.tab-item.is-selected .tab-item__icon {
+  background: var(--bg-page);
+}
+
+.tab-item.is-selected .tab-item__size {
+  color: var(--text-inverse);
+}
+
+.tab-item__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 8px;
+  border-radius: var(--border-radius);
+  width: 30px;
+  height: 30px;
+  background: var(--border-primary);
+
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--text-primary);
+
+  transition: background var(--transition-duration) linear;
+}
+
+.tab-item__size {
+  padding-right: 16px;
+  color: var(--text-primary);
+
+  transition: color var(--transition-duration) linear;
+}
+
+.description__total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.description__button {
+  width: 100%;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 10px 0;
+  border: 1px solid var(--bg-container);
+  border-radius: var(--border-radius);
+  background-color: transparent;
+  color: var(--text-primary);
+
+  transition:
+    background-color var(--transition-duration) linear,
+    color var(--transition-duration) linear,
+    border-color var(--transition-duration) linear;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .description__button:hover {
+    border-color: var(--bg-container);
+    background-color: var(--bg-container);
+    color: var(--text-inverse);
+  }
+
+  .tab-item:hover {
+    border-color: var(--bg-container);
+    background-color: var(--bg-container);
+  }
+
+  .tab-item:hover .tab-item__icon {
+    background: var(--bg-page);
+  }
+
+  .tab-item:hover .tab-item__size {
+    color: var(--text-inverse);
+  }
+}
+
+@media (max-width: 768px) {
+
+  .modal__window {
+    max-width: 688px;
+  }
+}
+
+@media (max-width: 680px) {
+
+  .modal__content {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .modal__description {
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 380px) {
+  .modal {
+    padding: 0 19px;
+  }
+
+  .modal__window {
+    padding: 16px;
+
+    border-radius: 40px;
+  }
+
+  .modal__image {
+    display: none;
   }
 }

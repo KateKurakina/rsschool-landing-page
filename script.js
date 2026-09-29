@@ -373,7 +373,7 @@ function renderCards(data) {
 
       const cardImage = document.createElement('img');
       cardImage.src = `../images/menu/grid-card-${category}/${category}-${index + 1}.png`
-      cardImage.alt = 'coffee image';
+      cardImage.alt = product.name;
       cardImage.classList.add('card__image');
 
       const cardContent = document.createElement('div');
@@ -398,6 +398,11 @@ function renderCards(data) {
       cardContentText.append(cardHeader, cardPar)
       cardContent.append(cardContentText, cardPrice);
       menuCard.append(cardImage, cardContent);
+
+      menuCard.addEventListener('click', () => {
+        openModal(product, index, category);
+      });
+
       gridMenu.append(menuCard);
     });
   };
@@ -411,6 +416,157 @@ function renderCards(data) {
   renderCategory('coffee');
 }
 
+
+//modal
+const modal = document.querySelector('.modal');
+const modalOverlay = document.querySelector('.modal__overlay');
+const modalWindow = document.querySelector('.modal__window');
+
+const modalImage = document.querySelector('.modal__image');
+const modalTitle = document.querySelector('.title__heading');
+const modalDescription = document.querySelector('.title__par');
+
+const sizeDescription = document.querySelector('.size__par');
+const sizeTabs = document.querySelector('.size__tabs');
+
+const additivesDescription = document.querySelector('.additives__par');
+const additivesTabs = document.querySelector('.additives__tabs');
+
+const totalDescription = document.querySelector('.total__par');
+const totalPrice = document.querySelector('.total__price');
+
+const descriptionButton = document.querySelector('.description__button');
+
+let selectedSize = 's';
+let selectedAdditives = [];
+
+function openModal(product, index, category) {
+  let selectedSize = 's';
+  let selectedAdditives = [];
+
+  modalImage.src = `../images/menu/grid-card-${category}/${category}-${index + 1}.png`;
+  modalImage.alt = product.name;
+
+  modalTitle.textContent = product.name;
+  modalDescription.textContent = product.description;
+
+  renderSizes(product);
+  renderAdditives(product);
+  updateTotalPrice(product);
+
+  modal.classList.add('is-open');
+  document.body.classList.add('modal-open');
+}
+
+function updateTotalPrice(product) {
+  totalDescription.textContent = 'Total:';
+
+  let total = Number(product.price);
+  total += Number(product.sizes[selectedSize]['add-price']);
+
+  selectedAdditives.forEach((additiveName) => {
+    const additive = product.additives.find((item) => {
+      return item.name === additiveName;
+    });
+
+    total += Number(additive['add-price']);
+  });
+
+  totalPrice.textContent = `$${total.toFixed(2)}`;
+}
+
+function renderSizes(product) {
+  sizeTabs.innerHTML = '';
+
+  Object.entries(product.sizes).forEach(([sizeKey, sizeData]) => {
+    const button = document.createElement('button');
+
+    button.type = 'button';
+    button.classList.add('tab-item');
+
+    if (sizeKey === selectedSize) {
+      button.classList.add('is-selected');
+    }
+
+    sizeDescription.textContent = 'Size';
+
+    const icon = document.createElement('span');
+    icon.classList.add('tab-item__icon');
+    icon.textContent = sizeKey.toUpperCase();
+
+    const size = document.createElement('p');
+    size.classList.add('tab-item__size');
+    size.textContent = sizeData.size;
+
+    button.append(icon, size);
+
+    button.addEventListener('click', () => {
+      selectedSize = sizeKey;
+
+      renderSizes(product);
+      updateTotalPrice(product);
+    });
+
+    sizeTabs.append(button);
+  });
+}
+
+function renderAdditives(product) {
+  additivesTabs.innerHTML = '';
+
+  product.additives.forEach((additive) => {
+    const button = document.createElement('button');
+
+    button.type = 'button';
+    button.classList.add('tab-item');
+
+    if (selectedAdditives.includes(additive.name)) {
+      button.classList.add('is-selected');
+    }
+
+    additivesDescription.textContent = 'Additives';
+
+    const icon = document.createElement('span');
+    icon.classList.add('tab-item__icon');
+    icon.textContent = '+';
+
+    const name = document.createElement('p');
+    name.classList.add('tab-item__size');
+    name.textContent = additive.name;
+
+    button.append(icon, name);
+
+    button.addEventListener('click', () => {
+      if (selectedAdditives.includes(additive.name)) {
+        selectedAdditives = selectedAdditives.filter((name) => {
+          return name !== additive.name;
+        });
+      } else {
+        selectedAdditives.push(additive.name);
+      }
+
+      renderAdditives(product);
+      updateTotalPrice(product);
+    });
+
+    additivesTabs.append(button);
+  });
+}
+
+function closeModal() {
+  modal.classList.remove('is-open');
+  document.body.classList.remove('modal-open');
+}
+
+descriptionButton.addEventListener('click', closeModal);
+
+modalOverlay.addEventListener('click', closeModal);
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+    closeModal();
+  }
+});
 
 
 
