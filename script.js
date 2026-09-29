@@ -333,6 +333,12 @@ if (sliderSlides) {
 
 
 //menu
+const cardsPerPage = 4;
+let visibleCards = cardsPerPage;
+let currentCategory = 'coffee';
+
+const refreshButton = document.querySelector('.menu__button-refresh');
+
 const buttonMenu = document.querySelectorAll('.menu__button');
 const gridMenu = document.querySelector('.menu__grid');
 
@@ -367,7 +373,11 @@ function renderCards(data) {
       return product.category === category;
     });
 
-    categoryProducts.forEach((product, index) => {
+    const productsToShow = window.innerWidth <= 768
+    ? categoryProducts.slice(0, visibleCards)
+    : categoryProducts;
+
+    productsToShow.forEach((product, index) => {
       const menuCard = document.createElement('div');
       menuCard.classList.add('menu__card');
 
@@ -405,16 +415,37 @@ function renderCards(data) {
 
       gridMenu.append(menuCard);
     });
+
+    updateRefreshButton(categoryProducts);
   };
 
   buttonMenu.forEach((button) => {
     button.addEventListener('click', () => {
+      currentCategory = button.id;
+      visibleCards = cardsPerPage;
+
       renderCategory(button.id);
     });
   });
 
   renderCategory('coffee');
+
+  function updateRefreshButton(categoryProducts) {
+  if (window.innerWidth <= 768 && visibleCards < categoryProducts.length) {
+    refreshButton.style.display = 'flex';
+  } else {
+    refreshButton.style.display = 'none';
+  }
 }
+
+  refreshButton.addEventListener('click', () => {
+    visibleCards += cardsPerPage;
+
+    renderCategory(currentCategory);
+  });
+}
+
+
 
 
 //modal
@@ -441,8 +472,8 @@ let selectedSize = 's';
 let selectedAdditives = [];
 
 function openModal(product, index, category) {
-  let selectedSize = 's';
-  let selectedAdditives = [];
+  selectedSize = 's';
+  selectedAdditives = [];
 
   modalImage.src = `../images/menu/grid-card-${category}/${category}-${index + 1}.png`;
   modalImage.alt = product.name;
